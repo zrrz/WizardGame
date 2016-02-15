@@ -25,14 +25,23 @@ public class Projectile : MonoBehaviour {
 			
 //			RaycastHit2D hit = Physics2D.Raycast((Vector2)Camera.main.ScreenToWorldPoint(positions[i]), Vector2.zero); 
 //			print(Camera.main.ScreenToWorldPoint(positions[i]));
-			Vector3 pos =  Camera.main.ScreenToWorldPoint(positions[i]);
-			pos.z = 0f;
-			transform.position = pos;
-
-
-			yield return new WaitForSeconds(speed);
+//			Vector3 pos =  Camera.main.ScreenToWorldPoint(positions[i]);
+//			pos.z = 0f;
+			Vector3 position = transform.position;
+			for(float timer = 0; timer < speed; timer += Time.deltaTime) {
+				transform.position = Vector3.Lerp(position, positions[i], timer);
+				yield return null;
+			}
+			transform.position = Vector3.Lerp(position, positions[i], 1f);
+			yield return null;
 		}
 		Destroy(gameObject, speed);
 		Instantiate(particle, transform.position, Quaternion.identity);
+	}
+
+	void OnCollisionEnter2D(Collision2D col) {
+		if(col.transform.GetComponent<Enemy>() != null) {
+			col.transform.GetComponent<Enemy>().Die();
+		}
 	}
 }
