@@ -24,10 +24,17 @@ public class GameManager : MonoBehaviour {
 			int spawnPoint = Random.Range(0, spawnPoints.Length);
 
 			Enemy enemy =  ((GameObject)Instantiate(enemyPrefab, spawnPoints[spawnPoint].position, Quaternion.identity)).GetComponent<Enemy>();
-			if(FindObjectOfType<Tower>().transform.position.x > spawnPoints[spawnPoint].position.x)
+			if(FindObjectOfType<Tower>().transform.position.x > spawnPoints[spawnPoint].position.x) {
 				enemy.SetDirection(Vector3.right);
-			else
+				Vector3 scale = enemy.transform.localScale;
+				scale.x *= -1;
+				enemy.transform.localScale = scale;
+//				foreach(SpriteRenderer sr in enemy.GetComponentsInChildren<SpriteRenderer>()) {
+//					sr.flipX = true;
+//				}
+			} else {
 				enemy.SetDirection(Vector3.left);
+			}
 			yield return new WaitForSeconds(enemySpawnCD);
 		}
 	}
