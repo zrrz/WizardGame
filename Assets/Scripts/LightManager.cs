@@ -15,6 +15,8 @@ public class LightManager : MonoBehaviour {
 	public Light light;
 	Color originalColor;
 
+	public Gradient gradient;
+
 	void Start () {
 //		spriteRenderers = new List<SpriteRenderer>(FindObjectsOfType<SpriteRenderer>());
 //		originalColors = new Dictionary<SpriteRenderer, Color>();
@@ -25,13 +27,18 @@ public class LightManager : MonoBehaviour {
 	}
 	
 	void Update () {
-		time = Mathf.PingPong(Time.time, dayLength);
+		light.color = gradient.Evaluate(time/dayLength);
+		time += Time.deltaTime;
+		if(time > dayLength)
+			time = 0f;
+		
+//		time = Mathf.PingPong(Time.time, dayLength);
 
-		Color col = originalColor;
-		col.r -= time/10f;
-		col.g -= time/10f;
-		col.b -= time/10f;
-		light.color = col;
+//		Color col = originalColor;
+//		col.r -= time/11f;
+//		col.g -= time/11f;
+//		col.b -= time/11f;
+//		light.color = col;
 
 //		foreach(SpriteRenderer sr in spriteRenderers) {
 //			Color col = originalColors[sr];

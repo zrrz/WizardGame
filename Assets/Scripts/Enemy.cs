@@ -31,6 +31,12 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
+	void OnCollisionExit2D(Collision2D col) {
+		if(col.transform.GetComponent<Tower>() != null) {
+			animator.SetBool("Attack", false);
+		}
+	}
+
 	public void SetDirection(Vector3 dir) {
 		moveDirection = dir;
 	}

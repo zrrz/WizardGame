@@ -12,6 +12,9 @@ public class Player : MonoBehaviour {
 
 	public float pathDistance = 0.3f;
 
+	//Tutorial
+	bool firstShot = true;
+
 	void Start () {
 		mousePositions = new List<Vector3>();
 	}
@@ -43,6 +46,10 @@ public class Player : MonoBehaviour {
 	}
 
 	void OnMouseUp() {
+		if(firstShot) {
+			GameManager.CompleteTutorial();
+			firstShot = false;
+		}
 		clickStarted = false;
 		FireProjectile();
 	}
