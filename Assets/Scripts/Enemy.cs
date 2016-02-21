@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour {
 	public void Die() {
 		Destroy(gameObject, 10f);
 		rigidbody.AddForce(Vector2.up * Random.Range(200f, 600f));
-		rigidbody.AddTorque(Random.Range(-200f, 200f));
+		rigidbody.AddTorque(Random.Range(-100f, 100f));
 //		rigidbody.isKinematic = true;
 		rigidbody.gravityScale = 2f;
 		dead = true;

@@ -8,9 +8,9 @@ public class LightManager : MonoBehaviour {
 //
 //	Dictionary<SpriteRenderer, Color> originalColors;
 
-	public float time = 0f;
+	float time = 0f;
 
-	float dayLength = 10f;
+	public float dayLength = 10f;
 
 	public Light light;
 	Color originalColor;
@@ -32,7 +32,6 @@ public class LightManager : MonoBehaviour {
 		col.g -= time/10f;
 		col.b -= time/10f;
 		light.color = col;
-		Debug.Log(col);
 
 //		foreach(SpriteRenderer sr in spriteRenderers) {
 //			Color col = originalColors[sr];
