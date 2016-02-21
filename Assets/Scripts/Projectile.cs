@@ -39,7 +39,7 @@ public class Projectile : MonoBehaviour {
 		Instantiate(particle, transform.position, Quaternion.identity);
 	}
 
-	void OnCollisionEnter2D(Collision2D col) {
+	void OnTriggerEnter2D(Collider2D col) {
 		if(col.transform.GetComponent<Enemy>() != null) {
 			col.transform.GetComponent<Enemy>().Die();
 		}

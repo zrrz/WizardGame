@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
+//using System;
 
 public class Enemy : MonoBehaviour {
 
@@ -13,13 +13,16 @@ public class Enemy : MonoBehaviour {
 
 	Vector3 moveDirection;
 
+	bool dead = false;
+
 	void Start () {
 		rigidbody = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
 	}
 
 	void Update () {
-		rigidbody.velocity = moveDirection*speed;
+		if(!dead)
+			rigidbody.velocity = moveDirection*speed;
 	}
 
 	void OnCollisionEnter2D(Collision2D col) {
@@ -38,7 +41,12 @@ public class Enemy : MonoBehaviour {
 	}
 
 	public void Die() {
-		Destroy(gameObject);
+		Destroy(gameObject, 10f);
+		rigidbody.AddForce(Vector2.up * Random.Range(200f, 600f));
+		rigidbody.AddTorque(Random.Range(-200f, 200f));
+//		rigidbody.isKinematic = true;
+		rigidbody.gravityScale = 2f;
+		dead = true;
 		//Do anim BS
 	}
 }
