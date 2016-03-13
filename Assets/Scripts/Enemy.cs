@@ -53,6 +53,7 @@ public class Enemy : MonoBehaviour {
 //		rigidbody.isKinematic = true;
 		rb.gravityScale = 2f;
 		dead = true;
+		Physics2D.IgnoreCollision(GetComponent<Collider2D>(), FindObjectOfType<Tower>().GetComponent<Collider2D>());
 		//Do anim BS
 	}
 }

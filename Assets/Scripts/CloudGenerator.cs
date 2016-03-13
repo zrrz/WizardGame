@@ -57,12 +57,12 @@ public class CloudGenerator : MonoBehaviour {
 		
 	void Update () {
 		for(int i = 0; i < clouds.Count; i++) {
-			float direction = clouds[i].CalcDirection() * clouds[i].speed * Time.deltaTime;
-			clouds[i].cloudObj.transform.Translate(direction, 0f, 0f);
-			if(clouds[i].cloudObj.GetComponent<Renderer>().isVisible == false) {
-				Destroy(clouds[i].cloudObj);
+			if(clouds[i].cloudObj == null) {
 				clouds.RemoveAt(i);
 				i--;
+			} else {
+				float direction = clouds[i].CalcDirection() * clouds[i].speed * Time.deltaTime;
+				clouds[i].cloudObj.transform.Translate(direction, 0f, 0f);
 			}
 		}
 	}
@@ -85,7 +85,8 @@ public class CloudGenerator : MonoBehaviour {
 		Cloud cloud = new Cloud();
 		cloud.cloudObj = cloudObj;
 		cloud.speed = Random.Range(minSpeed, maxSpeed);
-		cloud.direction = pos.x < 0f ? Cloud.Direction.Right : Cloud.Direction.Left;
+		cloud.direction = pos.x < FindObjectOfType<Tower>().transform.position.x ? Cloud.Direction.Right : Cloud.Direction.Left;
+		Destroy(cloudObj, 40f);
 		clouds.Add(cloud);
 	}
 

@@ -3,9 +3,11 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
-	public GameObject enemyPrefab;
+	public GameObject groundEnemyPrefab;
+	public GameObject airEnemyPrefab;
 	public float enemySpawnCD = 2.0f;
-	public Transform[] spawnPoints;
+	public Transform[] groundSpawnPoints;
+	public Transform[] airSpawnPoints;
 
 //	enum GameState {
 //		Tutorial, Play
@@ -22,7 +24,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start () {
-		SpawnEnemy();
+		SpawnGroundEnemy();
 	}
 	
 	void Update () {
@@ -36,22 +38,43 @@ public class GameManager : MonoBehaviour {
 
 	IEnumerator RepeatSpawn() {
 		while(true) {
-			if(spawnPoints.Length == 0) {
-				Debug.LogError("No spawn points", this);
-				yield break;
-			}
-
-			SpawnEnemy();
+			int spawn = Random.Range(0, 2);
+			if(spawn == 0)
+				SpawnGroundEnemy();
+			else if(spawn == 1)
+				SpawnAirEnemy();
 
 			yield return new WaitForSeconds(enemySpawnCD);
 		}
 	}
 
-	void SpawnEnemy() {
-		int spawnPoint = Random.Range(0, spawnPoints.Length);
+	void SpawnGroundEnemy() {
+		if(groundSpawnPoints.Length == 0) {
+			Debug.LogError("No ground spawn points", this);
+			return;
+		}
+		int spawnPoint = Random.Range(0, groundSpawnPoints.Length);
 
-		Enemy enemy =  ((GameObject)Instantiate(enemyPrefab, spawnPoints[spawnPoint].position, Quaternion.identity)).GetComponent<Enemy>();
-		if(FindObjectOfType<Tower>().transform.position.x > spawnPoints[spawnPoint].position.x) {
+		Enemy enemy =  ((GameObject)Instantiate(groundEnemyPrefab, groundSpawnPoints[spawnPoint].position, Quaternion.identity)).GetComponent<Enemy>();
+		if(FindObjectOfType<Tower>().transform.position.x > groundSpawnPoints[spawnPoint].position.x) {
+			enemy.SetDirection(Vector3.right);
+			Vector3 scale = enemy.transform.localScale;
+			scale.x *= -1;
+			enemy.transform.localScale = scale;
+		} else {
+			enemy.SetDirection(Vector3.left);
+		}
+	}
+
+	void SpawnAirEnemy() {
+		if(airSpawnPoints.Length == 0) {
+			Debug.LogError("No ground spawn points", this);
+			return;
+		}
+		int spawnPoint = Random.Range(0, airSpawnPoints.Length);
+
+		Enemy enemy =  ((GameObject)Instantiate(airEnemyPrefab, airSpawnPoints[spawnPoint].position + new Vector3(0f, Random.Range(-1f, 3f), 0f), Quaternion.identity)).GetComponent<Enemy>();
+		if(FindObjectOfType<Tower>().transform.position.x > airSpawnPoints[spawnPoint].position.x) {
 			enemy.SetDirection(Vector3.right);
 			Vector3 scale = enemy.transform.localScale;
 			scale.x *= -1;
