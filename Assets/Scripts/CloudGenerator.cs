@@ -85,7 +85,7 @@ public class CloudGenerator : MonoBehaviour {
 		Cloud cloud = new Cloud();
 		cloud.cloudObj = cloudObj;
 		cloud.speed = Random.Range(minSpeed, maxSpeed);
-		cloud.direction = (Cloud.Direction)Random.Range(0, 2);
+		cloud.direction = pos.x < 0f ? Cloud.Direction.Right : Cloud.Direction.Right;
 		clouds.Add(cloud);
 	}
 
