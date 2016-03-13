@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class CloudGenerator : MonoBehaviour {
 
-	public GameObject cloudPrefab;
+	public GameObject[] cloudPrefabs;
 
 	public Transform[] spawnPoints;
 
@@ -72,18 +72,20 @@ public class CloudGenerator : MonoBehaviour {
 			Debug.LogError("No spawn points", this);
 			return;
 		}
-		Vector3 pos = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
+		Vector3 pos = spawnPoints[Random.Range(0, spawnPoints.Length+1)].position;
 		pos.y += Random.Range(-heightVariation, heightVariation);
 
-		if(cloudPrefab == null) {
-			Debug.LogError("Cloud prefab is empty", this);
+		if(cloudPrefabs.Length == 0) {
+			Debug.LogError("No cloud prefabs", this);
 			return;
 		}
+		GameObject cloudPrefab = cloudPrefabs[Random.Range(0, cloudPrefabs.Length + 1)];
+
 		GameObject cloudObj = (GameObject)Instantiate(cloudPrefab, pos, Quaternion.identity);
 		Cloud cloud = new Cloud();
 		cloud.cloudObj = cloudObj;
 		cloud.speed = Random.Range(minSpeed, maxSpeed);
-		cloud.direction = (Cloud.Direction)Random.Range(0, 1);
+		cloud.direction = (Cloud.Direction)Random.Range(0, 2);
 		clouds.Add(cloud);
 	}
 
