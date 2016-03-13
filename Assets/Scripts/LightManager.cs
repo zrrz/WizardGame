@@ -12,8 +12,8 @@ public class LightManager : MonoBehaviour {
 
 	public float dayLength = 10f;
 
-	public Light light;
-	Color originalColor;
+	public Light lightObj;
+//	Color originalColor;
 
 	public Gradient gradient;
 
@@ -23,11 +23,11 @@ public class LightManager : MonoBehaviour {
 //		foreach(SpriteRenderer sr in spriteRenderers) {
 //			originalColors.Add(sr, sr.color);
 //		}
-		originalColor = light.color;
+//		originalColor = light.color;
 	}
 	
 	void Update () {
-		light.color = gradient.Evaluate(time/dayLength);
+		lightObj.color = gradient.Evaluate(time/dayLength);
 		time += Time.deltaTime;
 		if(time > dayLength)
 			time = 0f;

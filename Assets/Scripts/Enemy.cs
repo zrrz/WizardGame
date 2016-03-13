@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour {
 	public GameObject particlePrefab;
 	public Transform attackPoint;
 
-	Rigidbody2D rigidbody;
+	Rigidbody2D rb;
 	Animator animator;
 
 	Vector3 moveDirection;
@@ -16,13 +16,13 @@ public class Enemy : MonoBehaviour {
 	bool dead = false;
 
 	void Start () {
-		rigidbody = GetComponent<Rigidbody2D>();
+		rb = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
 	}
 
 	void Update () {
 		if(!dead)
-			rigidbody.velocity = moveDirection*speed;
+			rb.velocity = moveDirection*speed;
 	}
 
 	void OnCollisionEnter2D(Collision2D col) {
@@ -48,10 +48,10 @@ public class Enemy : MonoBehaviour {
 
 	public void Die() {
 		Destroy(gameObject, 10f);
-		rigidbody.AddForce(Vector2.up * Random.Range(200f, 600f));
-		rigidbody.AddTorque(Random.Range(-100f, 100f));
+		rb.AddForce(Vector2.up * Random.Range(200f, 600f));
+		rb.AddTorque(Random.Range(-100f, 100f));
 //		rigidbody.isKinematic = true;
-		rigidbody.gravityScale = 2f;
+		rb.gravityScale = 2f;
 		dead = true;
 		//Do anim BS
 	}

@@ -11,20 +11,20 @@ public class Torch : MonoBehaviour {
 
 	float originalIntensity;
 
-	public Light light;
+	public Light lightObj;
 
 	void Start () {
-		originalIntensity = light.intensity;
+		originalIntensity = lightObj.intensity;
 		StartCoroutine(Flicker());
 	}
 	
 	IEnumerator Flicker() {
 		while(true) {
-			light.intensity = originalIntensity + Random.Range(-flickerAmount, flickerAmount);
+			lightObj.intensity = originalIntensity + Random.Range(-flickerAmount, flickerAmount);
 			Color targetColor = Color.Lerp(color1, color2, Random.Range(0.0f, 1.0f));
-			Color previousColor = light.color;
+			Color previousColor = lightObj.color;
 			for(float time = 0f; time <= 1f; time += Time.deltaTime/flickerSpeed) {
-				light.color = Color.Lerp(previousColor, targetColor, time);
+				lightObj.color = Color.Lerp(previousColor, targetColor, time);
 				yield return null;
 			}
 //			yield return new WaitForSeconds(flickerSpeed);
